@@ -7,12 +7,17 @@ body {
 }
 
 /* Header Styles */
+/* Header Styles */
 header {
-    background-color: #282689;
+    background-color: #17858d; 
     color: #fff;
     text-align: center;
     padding: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
+
 
 .headeraH1 {
     margin: 0;
@@ -137,25 +142,42 @@ main h3 {
 .cta-container {
     text-align: center;
     padding: 20px;
-    background-color: #f5f5f5;
+    background-color: #17858d; /* Changed background color */
     margin-top: 30px;
+}
+
+.cta-title {
+    text-transform: uppercase; /* Made the title uppercase */
+    font-size: 24px; /* Increased font size */
+    font-weight: bold; /* Added font weight */
+    margin-bottom: 10px; /* Added appropriate margin */
+    color: #fff; /* Changed the text color */
+    text-decoration: none; /* Added decoration */
+}
+
+.cta-paragraph {
+    font-size: 18px; /* Changed font size */
+    font-weight: 400; /* Changed font weight */
 }
 
 .cta-button {
     display: inline-block;
-    padding: 10px 20px;
-    background-color: #007BFF;
+    padding: 15px 30px; /* Increased button padding */
+    background-color: #d82e2e; /* Changed the button background color on hover */
     color: #ffffff;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 10px; /* Increased the  border radius for a rounder button */
     font-weight: bold;
-    margin-top: 15px;
+    margin-top: 20px; /* Adjusted the margin */
     transition: background-color 0.3s;
+    border: 1px solid #0056b3; /* Added a 1px border and set border color */
 }
 
 .cta-button:hover {
-    background-color: #0056b3;
+    color: #17858d;
+    background-color: #ffffff; /* Changed the button background color on hover */
 }
+
 
 /* Footer Styles */
 footer {
