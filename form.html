@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Form</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            /* Background color for the entire page */
+            font-family: Arial, sans-serif;
+            color: #505050;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #17858d;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+
+        footer ul {
+            margin: 0;
+        }
+
+        footer li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #b3b3b3;
+        }
+
+        /* Style for the form: setting width, auto margin for centering, padding, 
+background color, border radius for rounded corners, and font size */
+        #form {
+            width: 300px;
+            margin: 20vh auto 0 auto;
+            /* This centers the form vertically and 
+horizontally */
+            padding: 20px;
+            background-color: whitesmoke;
+            /* Light gray background for the form */
+            border-radius: 4px;
+            /* Rounded corners for the form */
+            font-size: 12px;
+        }
+
+        /* Style for the form's heading: setting the text color and alignment */
+        #form h1 {
+            color: #0f2027;
+            /* Dark text color for the heading */
+            text-align: center;
+            /* Center-align the heading */
+        }
+
+        /* Style for the form's button: padding, top margin, full width, text color, 
+background color, no border, and rounded corners */
+        #form button {
+            padding: 10px;
+            margin-top: 10px;
+            /* Space above the button */
+            width: 100%;
+            /* Make the button expand the full width of the form */
+            color: white;
+            /* White text color for the button */
+            background-color: rgb(41, 57, 194);
+            /* Blue background color for the button 
+*/
+            border: none;
+            /* Remove the default border */
+            border-radius: 4px;
+            /* Rounded corners for the button */
+        }
+
+        /* Container for input fields: using flexbox for layout, column direction */
+        .input-control {
+            display: flex;
+            flex-direction: column;
+            /* Stack the children (label, input, error message) 
+vertically */
+        }
+
+        /* Style for input fields inside the container: border style, rounded corners, 
+block-level display, font size, padding, full width */
+        .input-control input {
+            border: 2px solid #f0f0f0;
+            /* Light gray border for the inputs */
+            border-radius: 4px;
+            /* Rounded corners for the inputs */
+            display: block;
+            /* Display input field as a block */
+            font-size: 12px;
+            /* Text size within the input field */
+            padding: 10px;
+            /* Space inside the input field */
+            width: 100%;
+            /* Input field takes up 100% of the form's width */
+        }
+
+        /* Remove focus outline from input fields */
+        .input-control input:focus {
+            outline: 0;
+            /* Remove outline when input is focused */
+        }
+
+        /* Style for input fields with class "success": green border */
+        .input-control.success input {
+            border-color: #09c372;
+            /* Green border to indicate successful input */
+        }
+
+        /* Style for input fields with class "error": red border */
+        .input-control.error input {
+            border-color: #ff3860;
+            /* Red border to indicate an error in input */
+        }
+
+        /* Style for the error message: text color, font size, and height */
+        .input-control .error {
+            color: #ff3860;
+            /* Red text color for error messages */
+            font-size: 9px;
+            /* Smaller font size for error messages */
+            height: 13px;
+            /* Explicit height to ensure consistent spacing */
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="form">
+        <h1>User Registration</h1>
+        <form id="registrationForm" action="#" method="post">
+            <div class="input-control">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <div class="error" id="usernameError"></div>
+            </div>
+            <div class="input-control">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error" id="emailError"></div>
+            </div>
+            <div class="input-control">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <div class="error" id="passwordError"></div>
+            </div>
+            <div class="input-control">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <div class="error" id="confirmPasswordError"></div>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <footer>
+        <ul>
+            <li><a href="https://www.facebook.com/">Facebook</a></li>
+            <li><a href="https://twitter.com/">Twitter</a></li>
+            <li><a href="https://www.instagram.com/">Instagram</a></li>
+        </ul>
+        <p>&copy; 2024 Wanderlust Voyages | Travel Agency. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const registrationForm = document.getElementById("registrationForm");
+        const username = document.getElementById("username");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+        const usernameError = document.getElementById("usernameError");
+        const emailError = document.getElementById("emailError");
+        const passwordError = document.getElementById("passwordError");
+        const confirmPasswordError = document.getElementById("confirmPasswordError");
+
+        registrationForm.addEventListener("submit", function (event) {
+            let valid = true;
+
+            // Username validation
+            if (username.value.trim() === "") {
+                usernameError.textContent = "Username cannot be empty";
+                username.classList.add("error");
+                valid = false;
+            } else {
+                usernameError.textContent = "";
+                username.classList.remove("error");
+            }
+
+            // Email validation
+            if (email.value.trim() === "") {
+                emailError.textContent = "Email cannot be empty";
+                email.classList.add("error");
+                valid = false;
+            } else {
+                const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                if (!emailPattern.test(email.value)) {
+                    emailError.textContent = "Invalid email format";
+                    email.classList.add("error");
+                    valid = false;
+                } else {
+                    emailError.textContent = "";
+                    email.classList.remove("error");
+                }
+            }
+
+            // Password validation
+            if (password.value.trim() === "") {
+                passwordError.textContent = "Password cannot be empty";
+                password.classList.add("error");
+                valid = false;
+            } else if (password.value.length < 8) {
+                passwordError.textContent = "Password must be at least 8 characters";
+                password.classList.add("error");
+                valid = false;
+            } else {
+                passwordError.textContent = "";
+                password.classList.remove("error");
+            }
+
+            // Confirm Password validation
+            if (confirmPassword.value.trim() === "") {
+                confirmPasswordError.textContent = "Confirm Password cannot be empty";
+                confirmPassword.classList.add("error");
+                valid = false;
+            } else if (confirmPassword.value !== password.value) {
+                confirmPasswordError.textContent = "Passwords do not match";
+                confirmPassword.classList.add("error");
+                valid = false;
+            } else {
+                confirmPasswordError.textContent = "";
+                confirmPassword.classList.remove("error");
+            }
+
+            if (!valid) {
+                event.preventDefault(); // Prevent form submission if there are validation errors
+            }
+        });
+    </script>
+</body>
+
+</html>
