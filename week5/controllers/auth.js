@@ -1,4 +1,5 @@
-
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const mysql = require('mysql');
 const db = mysql.createConnection({
@@ -9,16 +10,11 @@ const db = mysql.createConnection({
 });
 
 
-
-
-
 exports.register= (req, res)=> {
     console.log(req.body);
-    
-    
 
-    const{name,email, password, passwordConfirm} = req.body
-    db.query('SELECT email FROM user WHERE email =?',[email], (error,result)=>{
+    const{name,email, password, passwordConfirm} = req.body;
+    db.query('SELECT email FROM user WHERE email =?',[email], async(error,result)=>{
         if(error) {
             console.log(error);
         }
@@ -30,10 +26,25 @@ exports.register= (req, res)=> {
             return res.render('register',{
                 message: 'passwords do not match'
 
-            })
+            });
         }
-    })
 
+        let hashedPassword = await bcrypt.hash(password,8);
+        console.log(hashedPassword);
 
-    res.send("form submitted");
-};
+        db.query('INSERT INTO users SET ?' , {name:name, email:email, password:hashedPassword},
+        (error, results) => {
+            if (error) {
+                console.log(error);
+            }
+            else{
+                console.log(results);
+                return res.render('register', {
+                    message: 'user registered successfully'
+                });
+            }
+        })
+
+    });
+
+}

@@ -27,6 +27,8 @@ db.connect((error) => {
 const publicDirectory = path.join(__dirname, './public');
 app.use(express.static(publicDirectory));
 app.set('view engine', 'hbs');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 app.get('/', (req, res) => {
