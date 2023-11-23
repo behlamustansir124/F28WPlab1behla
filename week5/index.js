@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const dotenv = require('dotenv');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 dotenv.config({ path: 'C:\\Users\\User\\Documents\\GitHub\\F28WPlab1behla\\week5\\.env' });
 
 const app = express();
@@ -16,6 +17,13 @@ const db = mysql.createConnection({
     database: process.env.DATABASE
 });
 
+const publicDirectory = path.join(__dirname, './public');
+app.use(express.static(publicDirectory));
+app.set('view engine', 'hbs');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 db.connect((error) => {
     if (error) {
         console.error('Error connecting to MySQL:', error);
@@ -24,24 +32,6 @@ db.connect((error) => {
     }
 });
 
-const publicDirectory = path.join(__dirname, './public');
-app.use(express.static(publicDirectory));
-app.set('view engine', 'hbs');
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
-app.get('/', (req, res) => {
-   
-    res.render('index');
-
-});
-
-app.get('/register', (req, res) => {
-   
-    res.render('register');
-
-});
 
 
 // defien the routes 
