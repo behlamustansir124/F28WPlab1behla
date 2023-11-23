@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const dotenv = require('dotenv');
+const path = require('path');
 dotenv.config({ path: 'C:\\Users\\User\\Documents\\GitHub\\F28WPlab1behla\\week5\\.env' });
 
 const app = express();
@@ -23,11 +24,27 @@ db.connect((error) => {
     }
 });
 
+const publicDirectory = path.join(__dirname, './public');
+app.use(express.static(publicDirectory));
+app.set('view engine', 'hbs');
+
+
 app.get('/', (req, res) => {
-    res.send("<h1> home page </h1>");
+   
+    res.render('index');
+
 });
 
+app.get('/register', (req, res) => {
+   
+    res.render('register');
+
+});
+
+
+// defien the routes 
 app.use('/', require('./routes/pages'));
+app.use('/auth', require('./routes/auth'))
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
