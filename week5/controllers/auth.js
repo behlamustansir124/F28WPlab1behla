@@ -98,33 +98,37 @@ exports.logout = async (req, res) => {
     res.status(200).redirect('/');
 }
 
+
 exports.isLoggedIn = async (req, res, next) => {
     if (req.cookies.jwt) {
         try {
-            const decoded = await promisify(jwt.verify)(req.cookies.jwt,
+            const decoded = await promisify(jwt.verify)(
+                req.cookies.jwt,
                 process.env.JWT_SECRET
             );
 
             console.log(decoded);
 
-            db.query('SELECT * FROM users WHERE id = ?', [decoded.id])
+            // Use the 'await' keyword before 'db.query'
+            const result = await promisify(db.query)('SELECT * FROM users WHERE id = ?', [
+                decoded.id
+            ]);
+
             console.log(result);
 
-            if (!result) {
+            if (!result || result.length === 0) {
                 return next();
             }
 
             req.user = result[0];
-            console.log("user is")
+            console.log("user is");
             console.log(req.user);
             return next();
-        });
-
-    }catch (error) {
-        console.log(error);
-        return next();
+        } catch (error) {
+            console.log(error);
+            return next();
+        }
+    } else {
+        next();
     }
-}else {
-    next();
-}
-}
+};
