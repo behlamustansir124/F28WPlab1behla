@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-
+const { promisify } = require('util');
 const mysql = require('mysql');
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -109,21 +109,23 @@ exports.isLoggedIn = async (req, res, next) => {
 
             console.log(decoded);
 
-            // Use the 'await' keyword before 'db.query'
-            const result = await promisify(db.query)('SELECT * FROM users WHERE id = ?', [
-                decoded.id
-            ]);
+           
+            db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
+                console.log(result);
 
-            console.log(result);
+                if (!result || result.length === 0) {
+                    return next();
+                }
 
-            if (!result || result.length === 0) {
+                req.user = result[0];
+                console.log("user is");
+                console.log(req.user);
                 return next();
-            }
+            });
 
-            req.user = result[0];
-            console.log("user is");
-            console.log(req.user);
-            return next();
+            
+
+
         } catch (error) {
             console.log(error);
             return next();
@@ -131,4 +133,4 @@ exports.isLoggedIn = async (req, res, next) => {
     } else {
         next();
     }
-};
+}

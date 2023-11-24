@@ -6,8 +6,8 @@ const cookieParser = require('cookie-parser');
 dotenv.config({ path: 'C:\\Users\\User\\Documents\\GitHub\\F28WPlab1behla\\week5\\.env' });
 
 const app = express();
-const port = 5000;
-
+const port = 3000;
+const exphbs = require('express-handlebars');
 
 
 const db = mysql.createConnection({
@@ -17,8 +17,12 @@ const db = mysql.createConnection({
     database: process.env.DATABASE
 });
 
+// app.use(express.static(__dirname));
 const publicDirectory = path.join(__dirname, './public');
 app.use(express.static(publicDirectory));
+app.engine('hbs', exphbs({defaultLayout: 
+    'main', extname: '.hbs'
+}));
 app.set('view engine', 'hbs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
